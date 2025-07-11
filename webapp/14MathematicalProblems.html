@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Placement Preparation: Hashing</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #1e1e2f;
+      color: white;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .sidebar h2 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+    .sidebar a {
+      display: block;
+      color: #cfcfcf;
+      text-decoration: none;
+      margin: 10px 0;
+      transition: color 0.2s ease;
+    }
+    .sidebar a:hover {
+      color: #ffffff;
+    }
+    .content {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+    .content h2 {
+      margin-top: 60px;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 5px;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 15px;
+      overflow-x: auto;
+      border-radius: 6px;
+    }
+    .explanation {
+      background: #e8f0fe;
+      padding: 10px;
+      border-left: 4px solid #4285f4;
+      margin: 20px 0;
+      border-radius: 6px;
+    }
+    .trace {
+      background: #fff3cd;
+      padding: 10px;
+      border-left: 4px solid #ffc107;
+      margin: 10px 0;
+      border-radius: 6px;
+      font-family: monospace;
+    }
+    table.sorting-table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 40px;
+    }
+    table.sorting-table th, table.sorting-table td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    table.sorting-table th {
+      background-color: #f2f2f2;
+    }
+.scrollable-div {
+  max-height: 250px;
+  overflow-y: auto;
+  border: 2px solid #666;
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-radius: 6px;
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.print-button {
+  position: sticky;
+  bottom: 5px;
+  float: right;
+  padding: 8px 14px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-content, #printable-content * {
+    visibility: visible;
+  }
+  #printable-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .print-button {
+    display: none;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+  <h2>Mathematical Problems</h2>
+  <a href="#is-prime">Check if Number is Prime</a>
+  <a href="#gcd-lcm">GCD and LCM</a>
+  <a href="#factorial">Factorial</a>
+  <a href="#sieve">Sieve of Eratosthenes</a>
+  <a href="#power">Fast Power</a>
+  <a href="#trailing-zeros">Trailing Zeros in Factorial</a>
+  <a href="#armstrong">Check Armstrong Number</a>
+</div>
+
+
+<div class="content" id="printable-content">
+ 
+<button class="print-button" onclick="window.print()">🖨️ Print</button>
+<h1 style="font-size: 28px; margin-bottom: 10px;">Placement Preparation: Mathematical Problems</h1>
+
+<h2 id="is-prime">Check if Number is Prime</h2>
+<p><strong>Problem Statement:</strong> Determine whether a given number <code>n</code> is prime or not.</p>
+<p><strong>Example Test Cases:</strong><br>
+<code>Input: 7 → Output: True</code><br>
+<code>Input: 12 → Output: False</code></p>
+<h3>Brute Force Method</h3>
+<pre><code>def is_prime_brute(n):
+    if n <= 1:
+        return False
+    for i in range(2, n):
+        if n % i == 0:
+            return False
+    return True</code></pre>
+<div class="explanation">Time: O(n), Space: O(1)</div>
+<h3>Optimized Method</h3>
+<pre><code>def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True</code></pre>
+<div class="explanation">Time: O(√n), Space: O(1)</div>
+
+<h2 id="gcd-lcm">GCD and LCM</h2>
+<p><strong>Problem Statement:</strong> Given two integers <code>a</code> and <code>b</code>, compute their GCD and LCM.</p>
+<p><strong>Example Test Cases:</strong><br>
+<code>Input: a = 12, b = 18 → GCD = 6, LCM = 36</code><br>
+<code>Input: a = 7, b = 5 → GCD = 1, LCM = 35</code></p>
+<h3>Brute Force GCD</h3>
+<pre><code>def gcd_brute(a, b):
+    gcd = 1
+    for i in range(1, min(a, b) + 1):
+        if a % i == 0 and b % i == 0:
+            gcd = i
+    return gcd</code></pre>
+<div class="explanation">Time: O(min(a, b)), Space: O(1)</div>
+<h3>Efficient GCD (Euclidean)</h3>
+<pre><code>def gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return a</code></pre>
+<div class="explanation">Time: O(log min(a, b)), Space: O(1)</div>
+<h3>LCM using GCD</h3>
+<pre><code>def lcm(a, b):
+    return abs(a * b) // gcd(a, b)</code></pre>
+<div class="explanation">Time: O(log min(a, b)), Space: O(1)</div>
+
+<h2 id="factorial">Factorial</h2>
+<p><strong>Problem Statement:</strong> Calculate the factorial of a given number <code>n</code>.</p>
+<p><strong>Example Test Cases:</strong><br>
+<code>Input: 5 → Output: 120</code><br>
+<code>Input: 0 → Output: 1</code></p>
+<h3>Iterative Method</h3>
+<pre><code>def factorial_iterative(n):
+    result = 1
+    for i in range(2, n + 1):
+        result *= i
+    return result</code></pre>
+<div class="explanation">Time: O(n), Space: O(1)</div>
+<h3>Recursive Method</h3>
+<pre><code>def factorial_recursive(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * factorial_recursive(n - 1)</code></pre>
+<div class="explanation">Time: O(n), Space: O(n) for call stack</div>
+
+<h2 id="sieve">Sieve of Eratosthenes</h2>
+<p><strong>Problem Statement:</strong> Generate all prime numbers up to a number <code>n</code> using the Sieve of Eratosthenes.</p>
+<p><strong>Example Test Cases:</strong><br>
+<code>Input: 10 → Output: [2, 3, 5, 7]</code><br>
+<code>Input: 20 → Output: [2, 3, 5, 7, 11, 13, 17, 19]</code></p>
+<h3>Brute Force Prime Generator</h3>
+<pre><code>def primes_brute(n):
+    primes = []
+    for num in range(2, n + 1):
+        is_prime = True
+        for i in range(2, int(num ** 0.5) + 1):
+            if num % i == 0:
+                is_prime = False
+                break
+        if is_prime:
+            primes.append(num)
+    return primes</code></pre>
+<div class="explanation">Time: O(n√n), Space: O(n)</div>
+<h3>Sieve Method</h3>
+<pre><code>def sieve(n):
+    primes = [True] * (n + 1)
+    primes[0:2] = [False, False]
+    for i in range(2, int(n ** 0.5) + 1):
+        if primes[i]:
+            for j in range(i * i, n + 1, i):
+                primes[j] = False
+    return [i for i, is_prime in enumerate(primes) if is_prime]</code></pre>
+<div class="explanation">Time: O(n log log n), Space: O(n)</div>
+
+<h2 id="power">Fast Power (Exponentiation)</h2>
+<p><strong>Problem Statement:</strong> Calculate <code>x</code> raised to the power <code>n</code>.</p>
+<p><strong>Example Test Cases:</strong><br>
+<code>Input: x = 2, n = 10 → Output: 1024</code><br>
+<code>Input: x = 5, n = 0 → Output: 1</code></p>
+<h3>Brute Force Method</h3>
+<pre><code>def power_brute(x, n):
+    result = 1
+    for _ in range(n):
+        result *= x
+    return result</code></pre>
+<div class="explanation">Time: O(n), Space: O(1)</div>
+<h3>Fast Exponentiation</h3>
+<pre><code>def fast_pow(x, n):
+    result = 1
+    while n > 0:
+        if n % 2 == 1:
+            result *= x
+        x *= x
+        n //= 2
+    return result</code></pre>
+<div class="explanation">Time: O(log n), Space: O(1)</div>
+
+<h2 id="trailing-zeros">Trailing Zeros in Factorial</h2>
+<p><strong>Problem Statement:</strong> Find the number of trailing zeros in <code>n!</code> (factorial of n).</p>
+<p><strong>Example Test Cases:</strong><br>
+<code>Input: 5 → Output: 1</code><br>
+<code>Input: 100 → Output: 24</code></p>
+<h3>Brute Force (Count actual zeros)</h3>
+<pre><code>def trailing_zeros_brute(n):
+    from math import factorial
+    return len(str(factorial(n)).rstrip('0')) - len(str(factorial(n)))</code></pre>
+<div class="explanation">Time: O(n log n), Space: O(n)</div>
+<h3>Optimized Method</h3>
+<pre><code>def count_trailing_zeros(n):
+    count = 0
+    i = 5
+    while n // i:
+        count += n // i
+        i *= 5
+    return count</code></pre>
+<div class="explanation">Time: O(log₅ n), Space: O(1)</div>
+
+<h2 id="armstrong">Check Armstrong Number</h2>
+<p><strong>Problem Statement:</strong> Check whether a number is an Armstrong number or not.</p>
+<p><strong>Example Test Cases:</strong><br>
+<code>Input: 153 → Output: True</code><br>
+<code>Input: 123 → Output: False</code></p>
+<h3>Brute Force (Same as Optimized for this scale)</h3>
+<pre><code>def is_armstrong(n):
+    digits = list(map(int, str(n)))
+    power = len(digits)
+    return sum(d ** power for d in digits) == n</code></pre>
+<div class="explanation">Time: O(d), Space: O(1) where d is the number of digits</div>
+</div>
+</body>
+</html>

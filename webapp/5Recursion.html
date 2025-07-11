@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Placement-Focused Recursion Page</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+    .sidebar {
+      width: 250px;
+      background-color: #1e1e2f;
+      color: white;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .sidebar h2 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+    .sidebar a {
+      display: block;
+      color: #cfcfcf;
+      text-decoration: none;
+      margin: 10px 0;
+      transition: color 0.2s ease;
+    }
+    .sidebar a:hover {
+      color: #ffffff;
+    }
+    .content {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+    .content h2 {
+      margin-top: 60px;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 5px;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 15px;
+      overflow-x: auto;
+      border-radius: 6px;
+    }
+    .explanation {
+      background: #e8f0fe;
+      padding: 10px;
+      border-left: 4px solid #4285f4;
+      margin: 20px 0;
+      border-radius: 6px;
+    }
+.scrollable-div {
+  max-height: 250px;
+  overflow-y: auto;
+  border: 2px solid #666;
+  padding: 15px;
+  background-color: #f5f5f5;
+  border-radius: 6px;
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.print-button {
+  position: sticky;
+  bottom: 5px;
+  float: right;
+  padding: 8px 14px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-content, #printable-content * {
+    visibility: visible;
+  }
+  #printable-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .print-button {
+    display: none;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Recursion Topics</h2>
+    <a href="#factorial">Factorial</a>
+    <a href="#fibonacci">Fibonacci Series</a>
+    <a href="#sumdigits">Sum of Digits</a>
+    <a href="#subsets">Print Subsets</a>
+    <a href="#powerof2">Power of 2 Check</a>
+    <a href="#palindrome">Palindrome Check (Recursive)</a>
+  </div>
+
+<div class="content" id="printable-content">
+ 
+<button class="print-button" onclick="window.print()">🖨️ Print</button>
+    <h1>Placement Preparation: Recursion</h1>
+
+    <h2 id="factorial">Factorial</h2>
+    <p><strong>Problem Statement:</strong> Calculate the factorial of a number.</p>
+
+    <h3>Brute-force Recursive Approach</h3>
+    <pre><code>def factorial_recursive(n):
+    if n == 0 or n == 1:
+        return 1
+    return n * factorial_recursive(n - 1)</code></pre>
+    <div class="explanation">Time: O(n), Space: O(n)</div>
+
+    <h3>Optimized Iterative Approach</h3>
+    <pre><code>def factorial_iterative(n):
+    result = 1
+    for i in range(2, n + 1):
+        result *= i
+    return result</code></pre>
+    <div class="explanation">Time: O(n), Space: O(1)</div>
+
+    <h2 id="fibonacci">Fibonacci Series</h2>
+    <p><strong>Problem Statement:</strong> Generate Fibonacci numbers.</p>
+
+    <h3>Brute-force Recursive Approach</h3>
+    <pre><code>def fibonacci_recursive(n):
+    if n <= 1:
+        return n
+    return fibonacci_recursive(n - 1) + fibonacci_recursive(n - 2)</code></pre>
+    <div class="explanation">Time: O(2^n), Space: O(n)</div>
+
+    <h3>Optimized Memoization Approach</h3>
+    <pre><code>def fibonacci_memo(n, memo={}):
+    if n in memo:
+        return memo[n]
+    if n <= 1:
+        return n
+    memo[n] = fibonacci_memo(n-1, memo) + fibonacci_memo(n-2, memo)
+    return memo[n]</code></pre>
+    <div class="explanation">Time: O(n), Space: O(n)</div>
+
+    <h3>Optimized Iterative Approach</h3>
+    <pre><code>def fibonacci_iterative(n):
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a</code></pre>
+    <div class="explanation">Time: O(n), Space: O(1)</div>
+
+    <h2 id="sumdigits">Sum of Digits</h2>
+    <p><strong>Problem Statement:</strong> Sum the digits of a number.</p>
+
+    <h3>Brute-force Recursive Approach</h3>
+    <pre><code>def sum_of_digits(n):
+    if n == 0:
+        return 0
+    return (n % 10) + sum_of_digits(n // 10)</code></pre>
+    <div class="explanation">Time: O(log n), Space: O(log n)</div>
+
+    <h3>Optimized Iterative Approach</h3>
+    <pre><code>def sum_of_digits_iterative(n):
+    total = 0
+    while n > 0:
+        total += n % 10
+        n //= 10
+    return total</code></pre>
+    <div class="explanation">Time: O(log n), Space: O(1)</div>
+
+    <h2 id="subsets">Print Subsets</h2>
+    <p><strong>Problem Statement:</strong> Print all subsets of a string.</p>
+
+    <h3>Brute-force Recursive Print</h3>
+    <pre><code>def print_subsets(s, curr="", index=0):
+    if index == len(s):
+        print(curr)
+        return
+    print_subsets(s, curr, index + 1)
+    print_subsets(s, curr + s[index], index + 1)</code></pre>
+    <div class="explanation">Time: O(2^n), Space: O(n)</div>
+
+    <h3>Optimized Return All Subsets</h3>
+    <pre><code>def get_subsets(s, curr="", index=0, result=[]):
+    if index == len(s):
+        result.append(curr)
+        return
+    get_subsets(s, curr, index + 1, result)
+    get_subsets(s, curr + s[index], index + 1, result)</code></pre>
+    <div class="explanation">Time: O(2^n), Space: O(2^n)</div>
+
+    <h2 id="powerof2">Power of 2 Check</h2>
+    <p><strong>Problem Statement:</strong> Check if number is power of 2.</p>
+
+    <h3>Brute-force Recursive Approach</h3>
+    <pre><code>def is_power_of_two(n):
+    if n == 1:
+        return True
+    if n == 0 or n % 2 != 0:
+        return False
+    return is_power_of_two(n // 2)</code></pre>
+    <div class="explanation">Time: O(log n), Space: O(log n)</div>
+
+    <h3>Optimized Bitwise Approach</h3>
+    <pre><code>def is_power_of_two_bit(n):
+    return n > 0 and (n & (n - 1)) == 0</code></pre>
+    <div class="explanation">Time: O(1), Space: O(1)</div>
+
+    <h2 id="palindrome">Palindrome Check (Recursive)</h2>
+    <p><strong>Problem Statement:</strong> Check if string is palindrome.</p>
+
+    <h3>Brute-force Using Reversed String</h3>
+    <pre><code>def is_palindrome_reverse(s):
+    return s == s[::-1]</code></pre>
+    <div class="explanation">Time: O(n), Space: O(n)</div>
+
+    <h3>Optimized Recursive Two-pointer</h3>
+    <pre><code>def is_palindrome_recursive(s, left=0, right=None):
+    if right is None:
+        right = len(s) - 1
+    if left >= right:
+        return True
+    if s[left] != s[right]:
+        return False
+    return is_palindrome_recursive(s, left + 1, right - 1)</code></pre>
+    <div class="explanation">Time: O(n), Space: O(n)</div>
+  </div>
+</body>
+</html>
